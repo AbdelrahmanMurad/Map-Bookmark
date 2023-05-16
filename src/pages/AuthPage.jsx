@@ -4,12 +4,13 @@ import "../resources/css/login.css";
 import { useState } from 'react';
 
 const validationSchemaLogin = yup.object({
-    nameLogin: yup.string().required('Name is required'),
+    nameLogin: yup.string().min(3).max(10).required('Name is required'),
     emailLogin: yup.string().email('Invalid email').required('Email is required'),
     passwordLogin: yup.string().required('Password is required'),
 });
+
 const validationSchemaRegister = yup.object({
-    name: yup.string().required('Name is required'),
+    name: yup.string().min(3).max(10).required('Name is required'),
     email: yup.string().email('Invalid email').required('Email is required'),
     password: yup.string().required('Password is required'),
     passwordConfirmation: yup.string()
@@ -80,8 +81,7 @@ export let AuthPage = () => {
                                             />
                                             {formik.touched.nameLogin && formik.errors.nameLogin && <div className="text-danger">{formik.errors.nameLogin}</div>}
                                         </div>
-                                        <div className="form-outline mb-4">
-                                            <input
+                                        <div className="form-outline mb-4"><input
                                                 type="email"
                                                 id="emailLogin"
                                                 name="emailLogin"
@@ -136,53 +136,52 @@ export let AuthPage = () => {
                                                 onChange={formik.handleChange}
                                                 onBlur={formik.handleBlur}
                                                 value={formik.values.email}
-                                            />
-                                            {formik.touched.email && formik.errors.email && <div className="text-danger">{formik.errors.email}</div>}
-                                        </div>
-                                        <div className="form-outline mb-4">
-                                            <input
-                                                type="password"
-                                                id="password"
-                                                name="password"
-                                                className="form-control"
-                                                placeholder='password'
-                                                onChange={formik.handleChange}
-                                                onBlur={formik.handleBlur}
-                                                value={formik.values.password}
-                                            />
-                                            {formik.touched.password && formik.errors.password && <div className="text-danger">{formik.errors.password}</div>}
-                                        </div>
-                                        <div className="form-outline mb-4">
-                                            <input
-                                                type="password"
-                                                id="passwordConfirmation"
-                                                name="passwordConfirmation"
-                                                className="form-control"
-                                                placeholder='same password'
-                                                onChange={formik.handleChange}
-                                                onBlur={formik.handleBlur}
-                                                value={formik.values.passwordConfirmation}
-                                            />
-                                            {formik.touched.passwordConfirmation && formik.errors.passwordConfirmation && <div className="text-danger">{formik.errors.passwordConfirmation}</div>}
-                                        </div>
-                                        <div className="row mb-4">
-                                        </div>
-                                        <button type="submit" className="btn btn-main btn-block mb-4">Sign in</button>
-                                    </form>
+                                            />{formik.touched.email && formik.errors.email && <div className="text-danger">{formik.errors.email}</div>}
+                                            </div>
+                                            <div className="form-outline mb-4">
+                                                <input
+                                                    type="password"
+                                                    id="password"
+                                                    name="password"
+                                                    className="form-control"
+                                                    placeholder='password'
+                                                    onChange={formik.handleChange}
+                                                    onBlur={formik.handleBlur}
+                                                    value={formik.values.password}
+                                                />
+                                                {formik.touched.password && formik.errors.password && <div className="text-danger">{formik.errors.password}</div>}
+                                            </div>
+                                            <div className="form-outline mb-4">
+                                                <input
+                                                    type="password"
+                                                    id="passwordConfirmation"
+                                                    name="passwordConfirmation"
+                                                    className="form-control"
+                                                    placeholder='same password'
+                                                    onChange={formik.handleChange}
+                                                    onBlur={formik.handleBlur}
+                                                    value={formik.values.passwordConfirmation}
+                                                />
+                                                {formik.touched.passwordConfirmation && formik.errors.passwordConfirmation && <div className="text-danger">{formik.errors.passwordConfirmation}</div>}
+                                            </div>
+                                            <div className="row mb-4">
+                                            </div>
+                                            <button type="submit" className="btn btn-main btn-block mb-4">Sign in</button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="col-sm-1"></div>
+                        <div className="col-sm-1"></div>
+                    </div >
                 </div >
-            </div >
-            <div className="foo">
-                <footer className="text-center text-white bg-green">
-                    <div className="text-center p-3">
-                        ©2023 Copyright:AmigosTeam.com
-                    </div>
-                </footer>
-            </div>
-        </>
-    );
-}
+                <div className="foo">
+                    <footer className="text-center text-white bg-green">
+                        <div className="text-center p-3">
+                            ©2023 Copyright:AmigosTeam.com
+                        </div>
+                    </footer>
+                </div>
+            </>
+        );
+    }
