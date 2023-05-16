@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+import {useRef, useEffect, useState} from "react";
 import * as tt from "@tomtom-international/web-sdk-maps";
 import * as ttapi from "@tomtom-international/web-sdk-services";
 import "../resources/css/map.css";
@@ -14,6 +14,7 @@ export let MapPage = () => {
   const [map, setMap] = useState({});
   const [longitude, setLongitude] = useState(34.37517); // Gaza
   const [latitude, setLatitude] = useState(31.4273); // Gaza
+  const [searchResults, setSearchResults] = useState([]); //*aa
 
   const convertToPoints = (lngLat) => {
     return {
@@ -53,6 +54,36 @@ export let MapPage = () => {
       .addTo(map);
   };
 
+  const handlePlaceSelect = (place) => {
+    const {lat, lng} = place.position;
+
+    setLongitude(lng);
+    setLatitude(lat);
+
+    // Add marker to the selected place
+    const lngLat = {lng, lat};
+    addDeliveryMarker(lngLat, map);
+  };
+
+  const searchPlaces = (searchTerm) => {
+    const searchOptions = {
+      key: process.env.REACT_APP_TOM_TOM_API_KEY,
+      query: searchTerm,
+      language: "en-US",
+      limit: 5,
+      typeahead: true,
+    };
+
+    ttapi.services
+      .fuzzySearch(searchOptions)
+      .then((response) => {
+        setSearchResults(response.results);
+      })
+      .catch((error) => {
+        console.log("Error searching for places:", error);
+      });
+  };
+
   useEffect(() => {
     const origin = {
       lng: longitude,
@@ -76,9 +107,7 @@ export let MapPage = () => {
       const popupOffset = {
         bottom: [0, -25],
       };
-      const popup = new tt.Popup({ offset: popupOffset }).setHTML(
-        "This is you!"
-      );
+      const popup = new tt.Popup({offset: popupOffset}).setHTML("This is you!");
       const element = document.createElement("div");
       element.className = "marker";
 
@@ -160,29 +189,27 @@ export let MapPage = () => {
     <>
       {map && (
         <div className="app col-md-9 ms-sm-auto col-lg-10 px-md-4">
+          <input
+            type="text"
+            placeholder="Search for a place"
+            onChange={(e) => searchPlaces(e.target.value)}
+            className="form-control"
+          />
+          <ul className="list-group mb-4">
+            {searchResults.map((result) => (
+              <li
+                className="list-group-item"
+                // ! cursor-pointer
+                key={result.id}
+                onClick={() => handlePlaceSelect(result)}
+              >
+                {result.address.freeformAddress}
+              </li>
+            ))}
+          </ul>
+
           <div ref={mapElement} className="map" />
           <br></br>
-          {/* <div className="search-bar">
-            <h1>Where to?</h1>
-            <input
-              type="text"
-              id="longitude"
-              className="longitude"
-              placeholder="Put in Longitude"
-              onChange={(e) => {
-                setLongitude(e.target.value);
-              }}
-            />
-            <input
-              type="text"
-              id="latitude"
-              className="latitude"
-              placeholder="Put in latitude"
-              onChange={(e) => {
-                setLatitude(e.target.value);
-              }}
-            />
-          </div> */}
         </div>
       )}
     </>
