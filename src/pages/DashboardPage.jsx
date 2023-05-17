@@ -1,7 +1,7 @@
-import {NavLink, useLocation} from "react-router-dom";
-import {MainComponent} from "../components/MainComponent";
+import { NavLink, useLocation } from "react-router-dom";
+import { MainComponent } from "../components/MainComponent";
 import reactLogo from "../resources/img/pa.png";
-import {MapPage} from "../pages/MapPage";
+import { MapPage } from "../pages/MapPage";
 
 export let DashboardPage = () => {
   let location = useLocation();
@@ -24,7 +24,7 @@ export let DashboardPage = () => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div class="d-flex justify-content-end">
+        <div className="d-flex justify-content-end">
           <div className="navbar-nav">
             <div className="p-1 nav-item text-nowrap">
               <NavLink className="px-3 btn btn-success">User Name</NavLink>

@@ -1,4 +1,4 @@
-import {useRef, useEffect, useState} from "react";
+import { useRef, useEffect, useState } from "react";
 import * as tt from "@tomtom-international/web-sdk-maps";
 import * as ttapi from "@tomtom-international/web-sdk-services";
 import "../resources/css/map.css";
@@ -55,13 +55,13 @@ export let MapPage = () => {
   };
 
   const handlePlaceSelect = (place) => {
-    const {lat, lng} = place.position;
+    const { lat, lng } = place.position;
 
     setLongitude(lng);
     setLatitude(lat);
 
     // Add marker to the selected place
-    const lngLat = {lng, lat};
+    const lngLat = { lng, lat };
     addDeliveryMarker(lngLat, map);
   };
 
@@ -107,7 +107,7 @@ export let MapPage = () => {
       const popupOffset = {
         bottom: [0, -25],
       };
-      const popup = new tt.Popup({offset: popupOffset}).setHTML("This is you!");
+      const popup = new tt.Popup({ offset: popupOffset }).setHTML("This is you!");
       const element = document.createElement("div");
       element.className = "marker";
 

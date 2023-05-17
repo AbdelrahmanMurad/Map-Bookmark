@@ -6,7 +6,7 @@ import { DashboardPage } from "../pages/DashboardPage";
 export let AppRoutes = () => {
     return (
         <Routes>
-            <Route path="/login" element={<AuthPage />} />
+            <Route path="/" element={<AuthPage />} />
             <Route path="/map" element={<DashboardPage />} />
             <Route path="/actions" element={<ActionPage />} />
         </Routes>
