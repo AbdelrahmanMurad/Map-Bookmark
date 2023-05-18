@@ -3,13 +3,15 @@ import * as tt from "@tomtom-international/web-sdk-maps";
 import * as ttapi from "@tomtom-international/web-sdk-services";
 import "../resources/css/map.css";
 import "@tomtom-international/web-sdk-maps/dist/maps.css";
+// import { faHeart } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 /**
  * npm i @tomtom-international/web-sdk-maps
  * npm i @tomtom-international/web-sdk-services
  */
 
-export let MapPage = () => {
+export let MapComponent = () => {
   const mapElement = useRef();
   const [map, setMap] = useState({});
   const [longitude, setLongitude] = useState(34.37517); // Gaza
@@ -99,7 +101,7 @@ export let MapPage = () => {
         trafficFlow: true,
       },
       center: [longitude, latitude],
-      zoom: 12,
+      zoom: 13,
     });
     setMap(map);
 
@@ -108,8 +110,10 @@ export let MapPage = () => {
         bottom: [0, -25],
       };
       const popup = new tt.Popup({ offset: popupOffset }).setHTML("This is you!");
+      // const popup = new tt.Popup({ offset: popupOffset }).setHTML(<FontAwesomeIcon icon={faHeart}/>);
       const element = document.createElement("div");
       element.className = "marker";
+      // element.className = "iconF"; 
 
       const marker = new tt.Marker({
         draggable: true,
@@ -125,6 +129,7 @@ export let MapPage = () => {
       });
 
       marker.setPopup(popup).togglePopup();
+      // marker.setPopup(fav).togglePopup();
     };
     addMarker();
 
@@ -185,6 +190,26 @@ export let MapPage = () => {
     return () => map.remove();
   }, [longitude, latitude]);
 
+  // const DistanceMeasurement = () => {
+  //   let mapInstance = useRef(null);
+
+  //   return () => {
+  //     mapInstance.current.remove();
+  //   };
+
+  // };
+
+  // const measureDistance = () => {
+  //   const measurement = new tt.Measure(mapInstance.current);
+
+  //   measurement.on('measure', (event) => {
+  //     const distance = event.data;
+  //     console.log('Distance:', distance);
+  //   });
+
+  //   measurement.enable();
+  // };
+
   return (
     <>
       {map && (
@@ -199,7 +224,7 @@ export let MapPage = () => {
             {searchResults.map((result) => (
               <li
                 className="list-group-item"
-                // ! cursor-pointer
+                style={{ cursor: 'pointer' }}
                 key={result.id}
                 onClick={() => handlePlaceSelect(result)}
               >

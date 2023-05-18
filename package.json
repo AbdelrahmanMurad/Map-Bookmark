@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.4.0",
+    "@fortawesome/free-regular-svg-icons": "^6.4.0",
+    "@fortawesome/free-solid-svg-icons": "^6.4.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@popperjs/core": "^2.11.7",
     "@react-google-maps/api": "^2.18.1",
     "@testing-library/jest-dom": "^5.16.5",
@@ -10,6 +14,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@tomtom-international/web-sdk-maps": "^6.23.0",
     "@tomtom-international/web-sdk-services": "^6.23.0",
+    "axios": "^1.4.0",
     "bootstrap": "^5.2.3",
     "formik": "^2.2.9",
     "react": "^18.2.0",

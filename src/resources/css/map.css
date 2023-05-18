@@ -21,6 +21,32 @@
   border: solid 3px darkslategray;
 }
 
+iconF {
+  cursor: pointer;
+  padding: 10px 12px 8px;
+  background: #fff;
+  border-radius: 50%;
+  display: inline-block;
+  margin: 0 0 15px;
+  color: #aaa;
+  transition: 0.2s;
+}
+
+iconF:hover {
+  color: #666;
+}
+
+iconF:before {
+  font-family: fontawesome;
+  content: "\f004";
+  font-style: normal;
+}
+
+iconF.press {
+  animation: size 0.4s;
+  color: #e23b3b;
+}
+
 .marker-delivery {
   background-image: url("https://i.imgur.com/cIooqnp.png");
   background-size: cover;
