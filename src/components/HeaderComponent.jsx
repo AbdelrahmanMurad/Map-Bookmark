@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import reactLogo from "../resources/img/pa.png";
 
-export let HeaderComponent = () => {
+export let HeaderComponent = ({ username, logout }) => {
     return (
         <header className="navbar sticky-top navbar-light bg-light flex-md-nowrap py-0 shadow">
             <NavLink className="navbar-brand col-md-3 col-lg-2 me-0 px-3" to="/map">
@@ -22,12 +22,12 @@ export let HeaderComponent = () => {
             <div className="d-flex justify-content-end">
                 <div className="navbar-nav">
                     <div className="p-1 nav-item text-nowrap">
-                        <NavLink className="px-3 btn btn-success">User Name</NavLink>
+                        <NavLink className="px-3 btn btn-success">{username}</NavLink>
                     </div>
                 </div>
                 <div className="navbar-nav">
                     <div className="p-1 nav-item text-nowrap">
-                        <NavLink className="px-3 btn btn-danger" to="/">Sign out</NavLink>
+                        <button className="px-3 btn btn-danger" onClick={logout}>Sign out</button>
                     </div>
                 </div>
             </div>

@@ -4,15 +4,48 @@ import * as ttapi from "@tomtom-international/web-sdk-services";
 import "../resources/css/map.css";
 import "@tomtom-international/web-sdk-maps/dist/maps.css";
 import "@fortawesome/fontawesome-free/css/all.css";
-
-
+import { API_URL } from "../config";
+import { useContext } from "react";
+import AuthContext from "../context/AuthContext";
+import { toast } from "react-hot-toast";
+import { useLocation } from "react-router-dom";
 
 export let MapComponent = () => {
+  const location = useLocation();
+  const { user } = useContext(AuthContext);
+
+  let coords = { lat: 31.4273, lng: 34.37517 };
+  if (location.state) {
+    coords = location.state?.coords;
+  }
+
   const mapElement = useRef();
   const [map, setMap] = useState({});
-  const [longitude, setLongitude] = useState(34.37517); // Gaza
-  const [latitude, setLatitude] = useState(31.4273); // Gaza
+  const [latitude, setLatitude] = useState(coords.lat); // Gaza
+  const [longitude, setLongitude] = useState(coords.lng); // Gaza
   const [searchResults, setSearchResults] = useState([]);
+
+  async function addToFavorite(lat, long) {
+    try {
+      const res = await fetch(`${API_URL}/addToFavorite`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: user.username,
+          lat: `${lat}`,
+          long: `${long}`
+        }),
+      });
+      const data = await res.json();
+      if (data.status) {
+        toast.success(data.message)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const convertToPoints = (lngLat) => {
     return {
@@ -50,9 +83,9 @@ export let MapComponent = () => {
     button.className = "heart-icon";
     button.innerHTML = "<i class='fas fa-heart'></i>"; // Use 'fas' class prefix for solid heart icon
 
-    button.addEventListener("click", () => {
+    button.addEventListener("click", async () => {
       // Handle button click event here
-      console.log("Heart icon clicked!");
+      await addToFavorite(lngLat.lat, lngLat.lng)
       // Perform any desired actions when the heart icon is clicked
     });
 
@@ -65,7 +98,6 @@ export let MapComponent = () => {
       .addTo(map);
   };
 
-  //!!
   const handlePlaceSelect = (place) => {
     const { lat, lng } = place.position;
 

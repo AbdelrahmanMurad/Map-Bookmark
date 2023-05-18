@@ -1,6 +1,7 @@
-import {useState} from "react";
+import { useContext, useState } from "react";
 import * as yup from "yup";
-import {useFormik} from "formik";
+import { useFormik } from "formik";
+import AuthContext from "../context/AuthContext";
 
 const validationSchemaLogin = yup.object({
   nameLogin: yup.string().min(3).max(10).required("Name is required"),
@@ -29,7 +30,9 @@ const initialValuesRegister = {
 };
 
 export let AuthPage = () => {
+  const { login, register, error } = useContext(AuthContext);
   const [formType, setFormType] = useState("login");
+
   const validationSchema =
     formType === "register" ? validationSchemaRegister : validationSchemaLogin;
   const initialValues =
@@ -40,19 +43,13 @@ export let AuthPage = () => {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       try {
-        formType === "register" ? registerUser(values) : loginUser(values);
+        formType === "register" ? register(values) : login(values);
       } catch (error) {
         console.log(error);
       }
     },
   });
 
-  function registerUser(creds) {
-    console.log(creds);
-  }
-  function loginUser(creds) {
-    console.log(creds);
-  }
   return (
     <>
       <div className="container-fluid p-5 bg-primary text-white text-center login-cover"></div>
@@ -146,7 +143,9 @@ export let AuthPage = () => {
                           </div>
                         )}
                     </div>
-                    <div className="row mb-4"></div>
+                    <div className="row mb-4 text-danger text-center">
+                      {error ? <p>{error}</p> : null}
+                    </div>
                     <button
                       type="submit"
                       className="btn btn-main btn-block mb-4"

@@ -1,9 +1,39 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { MainComponent } from "../components/MainComponent"
 import { DashboardPage } from "./DashboardPage";
+import { useContext, useEffect, useState } from "react";
+import { API_URL } from "../config";
+import AuthContext from "../context/AuthContext";
 
 export let FavPlacePage = () => {
-    let location = useLocation();
+    const location = useLocation();
+    const navigate = useNavigate();
+    const { user } = useContext(AuthContext);
+
+    const [places, setPlaces] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        getFavoritePlaces();
+    }, []);
+
+    async function getFavoritePlaces() {
+        try {
+            setLoading(true);
+            const res = await fetch(`${API_URL}/favoriteList`, {
+                method: "POST"
+            });
+            let data = await res.json();
+            setLoading(false)
+
+            if (typeof data === "object") {
+                data = data.filter(place => place.username === user.username);
+                setPlaces(data);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <>
@@ -19,11 +49,25 @@ export let FavPlacePage = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th>1</th>
-                            <td>Masood</td>
-                            <td>Kin</td>
-                        </tr>
+                        {loading ? <tr>
+                            <th rowSpan="3">loading data ...</th>
+                            <th></th>
+                            <th></th>
+                        </tr> :
+                            places.map((place, index) => (
+                                <tr
+                                    key={place._id}
+                                    onClick={() => navigate("/map", {
+                                        state: { coords: { lat: place.lat, lng: place.long } }
+                                    })}
+                                    style={{ cursor: 'pointer' }}
+                                >
+                                    <th>#{index + 1}</th>
+                                    <td>{place.lat}</td>
+                                    <td>{place.long}</td>
+                                </tr>
+                            ))
+                        }
                     </tbody>
                 </table>
             </div>
