@@ -14,8 +14,15 @@ export let FavPlacePage = () => {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        getFavoritePlaces();
+        if (!user)
+            navigate("/");
+        else
+            getFavoritePlaces();
     }, []);
+
+    if (!user) {
+        return;
+    }
 
     async function getFavoritePlaces() {
         try {

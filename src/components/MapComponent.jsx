@@ -24,6 +24,7 @@ export let MapComponent = () => {
   const [latitude, setLatitude] = useState(coords.lat); // Gaza
   const [longitude, setLongitude] = useState(coords.lng); // Gaza
   const [searchResults, setSearchResults] = useState([]);
+  const [distance, setDistance] = useState(null); // Added distance state
 
   async function addToFavorite(lat, long) {
     try {
@@ -46,6 +47,14 @@ export let MapComponent = () => {
       console.log(error);
     }
   }
+
+  // Calculate distance between two points
+  const calculateDistance = (point1, point2) => {
+    const lngLat1 = [point1.longitude, point1.latitude];
+    const lngLat2 = [point2.longitude, point2.latitude];
+
+    return tt.LngLat.convert(lngLat1).distanceTo(tt.LngLat.convert(lngLat2));
+  };
 
   const convertToPoints = (lngLat) => {
     return {
@@ -176,11 +185,18 @@ export let MapComponent = () => {
       const pointsForDestinations = locations.map((destination) => {
         return convertToPoints(destination);
       });
+
+      if (pointsForDestinations?.length > 1) {
+        const distance = calculateDistance(pointsForDestinations[0].point, pointsForDestinations[pointsForDestinations.length - 1].point)
+        setDistance(distance);
+      }
+
       const callParameters = {
         key: process.env.REACT_APP_TOM_TOM_API_KEY,
         destinations: pointsForDestinations,
         origins: [convertToPoints(origin)],
       };
+
 
       return new Promise((resolve, reject) => {
         ttapi.services
@@ -233,6 +249,9 @@ export let MapComponent = () => {
     <>
       {map && (
         <div className="app col-md-9 ms-sm-auto col-lg-10 px-md-4">
+          <p className="distance mb-2 text-secondary">
+            Distance: <strong style={{ color: "#7289da" }}>{distance ? `${distance.toFixed(2)} meters` : "Pick two points"}</strong>
+          </p>
           <input
             type="text"
             placeholder="Search for a place"
