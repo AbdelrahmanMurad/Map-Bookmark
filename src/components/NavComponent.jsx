@@ -18,7 +18,6 @@ export let NavComponent = () => {
                             Map
                         </NavLink>
                     </li>
-                    {/* هنا سنضيف اي صفحة جديدة بالقادم */}
                     <li className="nav-item">
                         <NavLink
                             className={(props) => props.isActive ? "nav-link active" : "nav-link"}

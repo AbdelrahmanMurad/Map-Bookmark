@@ -21,32 +21,26 @@
   border: solid 3px darkslategray;
 }
 
-iconF {
-  cursor: pointer;
-  padding: 10px 12px 8px;
-  background: #fff;
-  border-radius: 50%;
-  display: inline-block;
-  margin: 0 0 15px;
-  color: #aaa;
-  transition: 0.2s;
+/* map.css */
+.marker-delivery {
+  position: relative;
 }
 
-iconF:hover {
-  color: #666;
+.marker-delivery i.fa-heart {
+  position: absolute;
+  top: -20px;
+  left: -10px;
+  font-size: 20px;
+  color: #cc5058;
+  opacity: 0; /* Set initial opacity to 0 to hide the heart icon */
+  transition: opacity 0.3s ease-in-out; /* Add a transition effect for opacity */
 }
 
-iconF:before {
-  font-family: fontawesome;
-  content: "\f004";
-  font-style: normal;
+.marker-delivery:hover i.fa-heart {
+  opacity: 1; /* Set the opacity to 1 when hovering over the place */
 }
 
-iconF.press {
-  animation: size 0.4s;
-  color: #e23b3b;
-}
-
+/* ! */
 .marker-delivery {
   background-image: url("https://i.imgur.com/cIooqnp.png");
   background-size: cover;

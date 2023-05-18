@@ -3,20 +3,16 @@ import * as tt from "@tomtom-international/web-sdk-maps";
 import * as ttapi from "@tomtom-international/web-sdk-services";
 import "../resources/css/map.css";
 import "@tomtom-international/web-sdk-maps/dist/maps.css";
-// import { faHeart } from '@fortawesome/free-solid-svg-icons';
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "@fortawesome/fontawesome-free/css/all.css";
 
-/**
- * npm i @tomtom-international/web-sdk-maps
- * npm i @tomtom-international/web-sdk-services
- */
+
 
 export let MapComponent = () => {
   const mapElement = useRef();
   const [map, setMap] = useState({});
   const [longitude, setLongitude] = useState(34.37517); // Gaza
   const [latitude, setLatitude] = useState(31.4273); // Gaza
-  const [searchResults, setSearchResults] = useState([]); //*aa
+  const [searchResults, setSearchResults] = useState([]);
 
   const convertToPoints = (lngLat) => {
     return {
@@ -49,6 +45,19 @@ export let MapComponent = () => {
   const addDeliveryMarker = (lngLat, map) => {
     const element = document.createElement("div");
     element.className = "marker-delivery";
+
+    const button = document.createElement("button");
+    button.className = "heart-icon";
+    button.innerHTML = "<i class='fas fa-heart'></i>"; // Use 'fas' class prefix for solid heart icon
+
+    button.addEventListener("click", () => {
+      // Handle button click event here
+      console.log("Heart icon clicked!");
+      // Perform any desired actions when the heart icon is clicked
+    });
+
+    element.appendChild(button);
+
     new tt.Marker({
       element: element,
     })
@@ -56,6 +65,7 @@ export let MapComponent = () => {
       .addTo(map);
   };
 
+  //!!
   const handlePlaceSelect = (place) => {
     const { lat, lng } = place.position;
 
@@ -71,7 +81,7 @@ export let MapComponent = () => {
     const searchOptions = {
       key: process.env.REACT_APP_TOM_TOM_API_KEY,
       query: searchTerm,
-      language: "en-US",
+      language: "ar",
       limit: 5,
       typeahead: true,
     };
@@ -110,10 +120,8 @@ export let MapComponent = () => {
         bottom: [0, -25],
       };
       const popup = new tt.Popup({ offset: popupOffset }).setHTML("This is you!");
-      // const popup = new tt.Popup({ offset: popupOffset }).setHTML(<FontAwesomeIcon icon={faHeart}/>);
       const element = document.createElement("div");
       element.className = "marker";
-      // element.className = "iconF"; 
 
       const marker = new tt.Marker({
         draggable: true,
@@ -129,7 +137,6 @@ export let MapComponent = () => {
       });
 
       marker.setPopup(popup).togglePopup();
-      // marker.setPopup(fav).togglePopup();
     };
     addMarker();
 
@@ -166,19 +173,19 @@ export let MapComponent = () => {
     };
 
     const reCalculateRoutes = () => {
-      sortDestinations(destinations).then((sorted) => {
-        sorted.unshift(origin);
-
-        ttapi.services
-          .calculateRoute({
-            key: process.env.REACT_APP_TOM_TOM_API_KEY,
-            locations: sorted,
-          })
-          .then((routeData) => {
-            const geoJson = routeData.toGeoJson();
-            drawRoute(geoJson, map);
-          });
-      });
+      sortDestinations(destinations)
+        .then((sorted) => {
+          sorted.unshift(origin);
+          ttapi.services
+            .calculateRoute({
+              key: process.env.REACT_APP_TOM_TOM_API_KEY,
+              locations: sorted,
+            })
+            .then((routeData) => {
+              const geoJson = routeData.toGeoJson();
+              drawRoute(geoJson, map);
+            });
+        });
     };
 
     map.on("click", (e) => {
@@ -189,26 +196,6 @@ export let MapComponent = () => {
 
     return () => map.remove();
   }, [longitude, latitude]);
-
-  // const DistanceMeasurement = () => {
-  //   let mapInstance = useRef(null);
-
-  //   return () => {
-  //     mapInstance.current.remove();
-  //   };
-
-  // };
-
-  // const measureDistance = () => {
-  //   const measurement = new tt.Measure(mapInstance.current);
-
-  //   measurement.on('measure', (event) => {
-  //     const distance = event.data;
-  //     console.log('Distance:', distance);
-  //   });
-
-  //   measurement.enable();
-  // };
 
   return (
     <>

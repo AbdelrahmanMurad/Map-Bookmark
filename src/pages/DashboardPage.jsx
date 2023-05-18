@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { MainComponent } from "../components/MainComponent";
 import { MapComponent } from "../components/MapComponent.jsx";
 import { HeaderComponent } from "../components/HeaderComponent.jsx";
