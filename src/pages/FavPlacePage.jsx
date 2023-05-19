@@ -50,7 +50,7 @@ export let FavPlacePage = () => {
                 <table className="table table-striped table-hover">
                     <thead>
                         <tr>
-                            <th scope="col">Place</th>
+                            <th scope="col">Number</th>
                             <th scope="col">Longitude</th>
                             <th scope="col">Latitude</th>
                         </tr>
