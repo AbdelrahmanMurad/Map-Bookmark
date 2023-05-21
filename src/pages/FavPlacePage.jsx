@@ -17,14 +17,14 @@ export let FavPlacePage = () => {
         if (!user)
             navigate("/");
         else
-            getFavoritePlaces();
+            getFavoritePlaces(); // request
     }, []);
 
     if (!user) {
-        return;
+        return;// no user => no UI مش حيكمل
     }
 
-    async function getFavoritePlaces() {
+    async function getFavoritePlaces() { //request
         try {
             setLoading(true);
             const res = await fetch(`${API_URL}/favoriteList`, {
@@ -32,11 +32,13 @@ export let FavPlacePage = () => {
             });
             let data = await res.json();
             setLoading(false)
+            //request end => false 
 
-            if (typeof data === "object") {
+            if (typeof data === "object") { 
                 data = data.filter(place => place.username === user.username);
                 setPlaces(data);
             }
+            //backend addressed by front
         } catch (error) {
             console.log(error);
         }
@@ -57,15 +59,17 @@ export let FavPlacePage = () => {
                     </thead>
                     <tbody>
                         {loading ? <tr>
-                            <th rowSpan="3">loading data ...</th>
+                            <th rowSpan="3">loading data ...</th> 
+                            {/* عبل ما تنعرض الداتا */}
                             <th></th>
                             <th></th>
                         </tr> :
                             places.map((place, index) => (
                                 <tr
-                                    key={place._id}
+                                    key={place._id} // id - lat - lng
                                     onClick={() => navigate("/map", {
                                         state: { coords: { lat: place.lat, lng: place.long } }
+                                        //object have lat and lng.
                                     })}
                                     style={{ cursor: 'pointer' }}
                                 >

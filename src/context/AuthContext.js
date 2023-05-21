@@ -7,11 +7,12 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const navigate = useNavigate();
-    const [user, setUser] = useLocalStorage("user", null);
+    const [user, setUser] = useLocalStorage("user", null);//return [storedValue, setValue];
     const [token, setToken] = useLocalStorage("token", null);
     const [error, setError] = useState(null);
 
     const login = async (creds) => {
+        //creds => credintials
         const res = await fetch(`${API_URL}/login`, {
             method: "POST",
             headers: {
@@ -31,7 +32,8 @@ export const AuthProvider = ({ children }) => {
             }
             setUser(user);
             setToken(data.token);
-            setError(null);
+            // stores in localStorage
+            setError(null);// الامور سليمة
             navigate("/map");
         } else {
             setError(data.message);
@@ -66,7 +68,7 @@ export const AuthProvider = ({ children }) => {
 
     };
 
-    const logout = async () => {
+    const logout = () => {
         setUser(null);
         setToken(null);
         navigate("/");
@@ -74,7 +76,7 @@ export const AuthProvider = ({ children }) => {
 
     return (
         <AuthContext.Provider
-            value={{ user, token, error, login, register, logout }}
+            value={{ user, token, error, login, register, logout }} //public on the project
         >
             {children}
         </AuthContext.Provider>

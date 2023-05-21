@@ -35,6 +35,7 @@ export let AuthPage = () => {
 
   const validationSchema =
     formType === "register" ? validationSchemaRegister : validationSchemaLogin;
+
   const initialValues =
     formType === "register" ? initialValuesRegister : initialValuesLogin;
 
@@ -109,7 +110,6 @@ export let AuthPage = () => {
                     <div className="form-outline mb-4">
                       <input
                         type="text"
-                        // ref={usernameRef}
                         id="nameLogin"
                         name="nameLogin"
                         className="form-control"
@@ -118,16 +118,16 @@ export let AuthPage = () => {
                         onBlur={formik.handleBlur}
                         value={formik.values.nameLogin}
                       />
-                      {formik.touched.nameLogin && formik.errors.nameLogin && (
-                        <div className="text-danger">
-                          {formik.errors.nameLogin}
-                        </div>
-                      )}
+                      {formik.touched.nameLogin &&
+                        formik.errors.nameLogin && (
+                          <div className="text-danger">
+                            {formik.errors.nameLogin}
+                          </div>
+                        )}
                     </div>
                     <div className="form-outline mb-4">
                       <input
                         type="password"
-                        // ref={passwordRef}
                         id="passwordLogin"
                         name="passwordLogin"
                         className="form-control"
@@ -241,7 +241,7 @@ export let AuthPage = () => {
           <div className="col-sm-1"></div>
         </div>
       </div>
-      <div className="foo">
+      <div >
         <footer className="text-center text-white bg-green">
           <div className="text-center p-3">©2023 Copyright:AmigosTeam.com</div>
         </footer>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+//custome hook 
 export function useLocalStorage(key, initialValue) {
     const [storedValue, setStoredValue] = useState(() => {
         try {

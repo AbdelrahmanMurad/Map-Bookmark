@@ -40,7 +40,6 @@
   opacity: 1; /* Set the opacity to 1 when hovering over the place */
 }
 
-/* ! */
 .marker-delivery {
   background-image: url("https://i.imgur.com/cIooqnp.png");
   background-size: cover;

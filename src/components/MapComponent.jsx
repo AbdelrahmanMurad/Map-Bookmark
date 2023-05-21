@@ -14,15 +14,17 @@ export let MapComponent = () => {
   const location = useLocation();
   const { user } = useContext(AuthContext);
 
-  let coords = { lat: 31.4273, lng: 34.37517 };
+  let coords = { lat: 31.4273, lng: 34.37517 }; // Gaza
   if (location.state) {
-    coords = location.state?.coords;
+    coords = location.state.coords;
+    //بتيجي من صفحة المفضلة سطر 71
+    //coords is element in object state.
   }
 
   const mapElement = useRef();
   const [map, setMap] = useState({});
-  const [latitude, setLatitude] = useState(coords.lat); // Gaza
-  const [longitude, setLongitude] = useState(coords.lng); // Gaza
+  const [latitude, setLatitude] = useState(coords.lat);
+  const [longitude, setLongitude] = useState(coords.lng);
   const [searchResults, setSearchResults] = useState([]);
   const [distance, setDistance] = useState(null); // Added distance state
 
@@ -41,7 +43,7 @@ export let MapComponent = () => {
       });
       const data = await res.json();
       if (data.status) {
-        toast.success(data.message)
+        toast.success(data.message) //location has been added to favorites
       }
     } catch (error) {
       console.log(error);
@@ -53,9 +55,12 @@ export let MapComponent = () => {
     const lngLat1 = [point1.longitude, point1.latitude];
     const lngLat2 = [point2.longitude, point2.latitude];
 
-    return tt.LngLat.convert(lngLat1).distanceTo(tt.LngLat.convert(lngLat2));
+    return tt.LngLat.convert(lngLat1).distanceTo(tt.LngLat.convert(lngLat2)); // Calculate distance method from TomTom.
+    //convert: Converts an array of two numbers or an object with lng and lat or lon and lat properties to a LngLat object. If a LngLat object is passed in, the function returns it unchanged.
+    // distanceTo: Returns the approximate distance between a pair of coordinates in meters by using the Haversine Formula.
   };
 
+  //!
   const convertToPoints = (lngLat) => {
     return {
       point: {
@@ -107,6 +112,7 @@ export let MapComponent = () => {
       .addTo(map);
   };
 
+  //!
   const handlePlaceSelect = (place) => {
     const { lat, lng } = place.position;
 
@@ -126,7 +132,7 @@ export let MapComponent = () => {
       limit: 5,
       typeahead: true,
     };
-
+    //!
     ttapi.services
       .fuzzySearch(searchOptions)
       .then((response) => {
@@ -196,7 +202,6 @@ export let MapComponent = () => {
         destinations: pointsForDestinations,
         origins: [convertToPoints(origin)],
       };
-
 
       return new Promise((resolve, reject) => {
         ttapi.services
