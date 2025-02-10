@@ -1,2 +1,2 @@
 # Map-Bookmark
-React, Node, MongoDB
+MERN Stack: MongoDB, Express, React, Node.
